@@ -13,9 +13,11 @@
 
       <v-btn
         text
-        @click="isLogin=!isLogin"
+        @click="onLoginClick"
       >
-        <span class="mr-2">Войти</span>
+        <span class="mr-2" v-if="$store.state.login.token">Выйти</span>
+        <span class="mr-2" v-else>Войти</span>
+
         <v-icon>mdi-login</v-icon>
       </v-btn>
       <v-dialog
@@ -38,7 +40,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer/>
-            <v-btn text>
+            <v-btn text @click="auth()">
               <span class="mr-2">Войти</span>
               <v-icon>mdi-login</v-icon>
             </v-btn>
@@ -66,11 +68,31 @@ export default {
       },
       isLogin: false,
       links: [
-        { link: { name: 'Home' }, title: 'Домой' },
+        { link: { name: 'Home' }, title: 'Главная' },
         { link: { name: 'About' }, title: 'О нас' },
         { link: { name: 'Cabinet' }, title: 'Личный кабинет' },
       ],
     };
+  },
+  methods: {
+    auth() {
+      this.$store.dispatch('login/auth', this.loginForm)
+        .then(() => {
+          this.isLogin = false;
+        })
+        .catch(() => {
+        });
+    },
+    onLoginClick() {
+      if (this.$store.state.login.token) {
+        this.$store.commit('login/removeToken');
+      } else {
+        this.isLogin = true;
+      }
+    },
+  },
+  created() {
+    this.$store.commit('login/setToken', localStorage.getItem('token'));
   },
 };
 </script>
