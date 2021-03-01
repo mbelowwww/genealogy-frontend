@@ -16,14 +16,11 @@ export default {
     },
   },
   actions: {
-    auth(context, data) {
-      request().post('/api/login', data)
+    async auth(context, data) {
+      await request().post('/api/login', data)
         .then((res) => {
-          context.commit('setToken', `Bearer ${res.data.message}`);
+          context.commit('setToken', `Bearer ${res.data.jwt}`);
           console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
         });
     },
   },
