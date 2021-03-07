@@ -17,6 +17,7 @@
       <v-btn
         text
         @click="onLoginClick"
+        to="Home"
       >
         <span class="mr-2" v-if="$store.state.login.token">Выйти</span>
         <span class="mr-2" v-else>Войти</span>
@@ -172,7 +173,9 @@
                   </v-menu>
                 </v-col>
                 <v-col cols="12">
-                  <label style="color: blue" v-if="isRegistrationSuccessful">Регистрация прошла успешно!</label>
+                  <label style="color: blue" v-if="isRegistrationSuccessful">
+                    Регистрация прошла успешно!
+                  </label>
                 </v-col>
               </v-row>
             </v-container>
@@ -237,7 +240,7 @@ export default {
       show4: false,
       date: new Date().toISOString().substr(0, 10),
       menu: false,
-      isRegistrationSuccessful: false
+      isRegistrationSuccessful: false,
     };
   },
   methods: {
@@ -262,16 +265,16 @@ export default {
       this.isLogin = false;
       this.isRegistration = true;
     },
-    async registration(){
-      this.registrationForm.birthday = this.date.toString()
+    async registration() {
+      this.registrationForm.birthday = this.date.toString();
       await this.$store.dispatch('user/registration', this.registrationForm);
 
       this.isRegistrationSuccessful = true;
-      setTimeout(()=>{
+      setTimeout(() => {
         this.isRegistrationSuccessful = false;
         this.isRegistration = false;
         this.isLogin = true;
-      }, 2000)
+      }, 2000);
     },
   },
   created() {

@@ -17,5 +17,11 @@ export default {
           console.log(err);
         });
     },
+    async info(_, data) {
+      // eslint-disable-next-line no-return-await
+      return await request()
+        .get('/api/user/info', data)
+        .then((res) => res.data);
+    },
   },
 };
